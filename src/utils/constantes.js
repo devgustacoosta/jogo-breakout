@@ -1,5 +1,6 @@
 export let score = {
     pontuacao: 0,
+    nome: "",
 };
 
 export let vidas = {
@@ -11,3 +12,14 @@ export const imagens = {
     restart: "src/assets/refresh-outline.svg",
     vida: "src/assets/md-heart.svg",
 }
+
+export const Paginas = {
+    INICIAL: "inicial",
+    JOGANDO: "jogando",
+    FINAL: "final",
+}
+
+export const estado = {
+    paginaAtual: Paginas.INICIAL
+}
+

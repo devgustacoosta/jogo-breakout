@@ -12,7 +12,21 @@
     </header>
     <main>
         <section class="jogo">
+            <div class="inicio">
+                <p>Seja bem-vindo!</p>
+                <p>Qual é o seu nome?</p>
+                <label for="nome"></label>
+                <input maxlength="15" type="text" name="nome" id="nome" required>
+                <button type="submit">Jogar</button>
+            </div>
             <canvas></canvas>
+            <div class="final">
+                <p class="resultado"></p>
+                <div class="ranking">
+
+                </div>
+                <button type="submit">reiniciar</button>
+            </div>
         </section>
     </main>
     <footer>

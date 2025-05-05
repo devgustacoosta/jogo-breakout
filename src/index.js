@@ -1,10 +1,19 @@
-import { imagens, score, vidas } from "./utils/constantes.js";
+import { imagens, score, vidas, Paginas, estado } from "./utils/constantes.js";
 import Jogador from "./classes/Jogador.js";
 import Bola from "./classes/Bola.js";
 import Tijolos from "./classes/Tijolos.js";
 
 const canvas = document.querySelector("canvas");
 const contexto = canvas.getContext("2d");
+
+const inputNome = document.querySelector("#nome");
+const botaoJogar = document.querySelector(".inicio button");
+const divInicio = document.querySelector(".inicio");
+
+const botaoReiniciar = document.querySelector(".final button");
+const divFinal = document.querySelector(".final");
+const resultado = document.querySelector(".resultado");
+
 
 canvas.tabIndex = 0;
 canvas.focus();
@@ -24,9 +33,40 @@ imgRestart.src = imagens.restart;
 const imgVidas = new Image();
 imgVidas.src = imagens.vida;
 
+estado.paginaAtual = Paginas.INICIAL;
+
 const keys = {
     left: false,
     right: false,
+}
+
+botaoJogar.addEventListener("click", () => {
+    const nome = inputNome.value.trim();
+
+    if (nome.length === 0) {
+        alert("Por favor, insira seu nome.");
+        return;
+    }
+
+    score.nome = nome;
+    estado.paginaAtual = Paginas.JOGANDO;
+
+    divInicio.style.display = "none";
+    canvas.style.display = "block";
+});
+
+if (estado.paginaAtual === Paginas.INICIAL) {
+    divInicio.style.display = "flex";
+    canvas.style.display = "none";
+    divFinal.style.display = "none";
+} else if (estado.paginaAtual === Paginas.JOGANDO) {
+    divInicio.style.display = "none";
+    canvas.style.display = "block";
+    divFinal.style.display = "none";
+} else if (estado.paginaAtual === Paginas.FINAL) {
+    divInicio.style.display = "none";
+    canvas.style.display = "none";
+    divFinal.style.display = "flex";
 }
 
 addEventListener("keydown", (event) => {
@@ -44,7 +84,17 @@ addEventListener("keyup", (event) => {
 function loop() {
     contexto.clearRect(0, 0, canvas.width, canvas.height);
 
-    jogar()
+    if (estado.paginaAtual === Paginas.JOGANDO) {
+        desenharMenu();
+        desenharIcones();
+        jogar()
+    } else if (estado.paginaAtual === Paginas.DERROTA) {
+        desenharMenu();
+        desenharIcones();
+    } else if (estado.paginaAtual === Paginas.VITORIA) {
+        desenharMenu();
+        desenharIcones();
+    }
     requestAnimationFrame(loop);
 }
 
@@ -70,7 +120,6 @@ function desenharMenu() {
         contexto.drawImage(imgVidas, 100 + i * 35, 8, 30, 30);
         contexto.filter = "none";
     }
-
 }
 
 function desenharIcones() {

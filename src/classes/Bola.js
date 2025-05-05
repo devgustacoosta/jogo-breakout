@@ -1,4 +1,4 @@
-import { vidas } from "../utils/constantes.js";
+import { vidas, Paginas, estado } from "../utils/constantes.js";
 
 class Bola {
     constructor(x, y, canvas) {
@@ -17,9 +17,7 @@ class Bola {
 
         if (this.y + this.dy < this.radius) {
             this.dy = -this.dy;
-        }
-
-        else if (this.y + this.dy > this.canvas.height - this.radius) {
+        } else if (this.y + this.dy > this.canvas.height - this.radius) {
             const colideComJogador =
                 this.x + this.radius > jogador.posicao.x &&
                 this.x - this.radius < jogador.posicao.x + jogador.width;
@@ -31,7 +29,7 @@ class Bola {
                 if (vidas.quantidade > 0) {
                     this.reiniciar(this.canvas.width / 2, this.canvas.height - 30);
                 } else {
-                    window.location.reload();
+                    estado.paginaAtual = Paginas.FINAL;
                 }
             }
         }
