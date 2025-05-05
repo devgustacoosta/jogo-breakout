@@ -1,4 +1,5 @@
 import Tijolo from "./Tijolo.js";
+import { score } from "../utils/constantes.js";
 
 class Tijolos {
     constructor(canvasWidth) {
@@ -39,6 +40,7 @@ class Tijolos {
                 if (tijolo.colideCom(bola)) {
                     bola.dy = -bola.dy;
                     tijolo.ativo = 0;
+                    score.pontuacao += 1;
                 }
             }
         }

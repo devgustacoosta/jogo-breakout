@@ -1,3 +1,4 @@
+import { imagens, score } from "./utils/constantes.js";
 import Jogador from "./classes/Jogador.js";
 import Bola from "./classes/Bola.js";
 import Tijolos from "./classes/Tijolos.js";
@@ -13,6 +14,12 @@ canvas.height = innerHeight / 1.5;
 const jogador = new Jogador(canvas.width, canvas.height);
 const bola = new Bola(canvas.width / 2, canvas.height - 30, canvas);
 const tijolos = new Tijolos(canvas.width);
+
+const imgMenu = new Image();
+imgMenu.src = imagens.home;
+
+const imgRestart = new Image();
+imgRestart.src = imagens.restart;
 
 const keys = {
     left: false,
@@ -47,6 +54,32 @@ function jogar() {
     jogador.desenhar(contexto);
     tijolos.desenharTodos(contexto);
     tijolos.verificarColisao(bola);
+    desenharIcones();
+    desenharMenu();
+}
+
+function desenharMenu() {
+    contexto.fillStyle = "white";
+    contexto.font = "20px Arial";
+    contexto.fillText(`Score: ${score.pontuacao}`, 0, 30);
+}
+
+function desenharIcones() {
+    const iconY = 8;
+    const iconWidth = 30;
+    const iconHeight = 30;
+
+    if (imgMenu.complete) {
+        contexto.filter = "brightness(0) invert(1)";
+        contexto.drawImage(imgMenu, canvas.width - 70, iconY, iconWidth, iconHeight);
+        contexto.filter = "none";
+    }
+
+    if (imgRestart.complete) {
+        contexto.filter = "brightness(0) invert(1)";
+        contexto.drawImage(imgRestart, canvas.width - 35, iconY, iconWidth, iconHeight);
+        contexto.filter = "none";
+    }
 }
 
 loop();

@@ -57,5 +57,5 @@ footer {
 
 canvas {
     background-color: var(--cor-fundo);
-    padding: 10px;
+    padding: 10px 20px;
 }
