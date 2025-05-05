@@ -1,5 +1,6 @@
 import Jogador from "./classes/Jogador.js";
 import Bola from "./classes/Bola.js";
+import Tijolos from "./classes/Tijolos.js";
 
 const canvas = document.querySelector("canvas");
 const contexto = canvas.getContext("2d");
@@ -11,6 +12,7 @@ canvas.height = innerHeight / 1.5;
 
 const jogador = new Jogador(canvas.width, canvas.height);
 const bola = new Bola(canvas.width / 2, canvas.height - 30, canvas);
+const tijolos = new Tijolos();
 
 const keys = {
     left: false,
@@ -43,6 +45,8 @@ function jogar() {
     bola.atualizar(jogador);
     bola.desenhar(contexto);
     jogador.desenhar(contexto);
+    tijolos.desenharTodos(contexto);
+    tijolos.verificarColisao(bola);
 }
 
 loop();

@@ -4,7 +4,7 @@ class Bola {
         this.y = y;
         this.dx = 4;
         this.dy = -4;
-        this.radius = 24;
+        this.radius = 20;
         this.canvas = canvas;
     }
 
@@ -12,21 +12,27 @@ class Bola {
         if (this.x + this.dx > this.canvas.width - this.radius || this.x + this.dx < this.radius) {
             this.dx = -this.dx;
         }
-
+    
         if (this.y + this.dy < this.radius) {
             this.dy = -this.dy;
-        } else if (this.y + this.dy > this.canvas.height - this.radius) {
-            if (this.x > jogador.posicao.x && this.x < jogador.posicao.x + jogador.width) {
+        }
+    
+        else if (this.y + this.dy > this.canvas.height - this.radius) {
+            const colideComJogador =
+                this.x + this.radius > jogador.posicao.x &&
+                this.x - this.radius < jogador.posicao.x + jogador.width;
+    
+            if (colideComJogador) {
                 this.dy = -this.dy;
             } else {
                 window.location.reload();
             }
         }
-
+    
         this.x += this.dx;
         this.y += this.dy;
     }
-
+    
     desenhar(contexto) {
         contexto.beginPath();
         contexto.arc(this.x, this.y, this.radius, 0, Math.PI * 2);

@@ -1,7 +1,7 @@
 class Jogador {
     constructor(canvasWidth, canvasHeight) {
-        this.width = 133;
-        this.height = 29;
+        this.width = 140;
+        this.height = 20;
         this.velocidade = 20;
         this.posicao = {
             x: canvasWidth / 2 - this.width / 2,
