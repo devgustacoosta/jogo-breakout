@@ -41,6 +41,9 @@ class Tijolos {
                     bola.dy = -bola.dy;
                     tijolo.ativo = 0;
                     score.pontuacao += 1;
+                    if (this.qtdeBlocos == score.pontuacao) {
+                        alert('Você venceu!');
+                    }
                 }
             }
         }

@@ -1,4 +1,4 @@
-import { imagens, score } from "./utils/constantes.js";
+import { imagens, score, vidas } from "./utils/constantes.js";
 import Jogador from "./classes/Jogador.js";
 import Bola from "./classes/Bola.js";
 import Tijolos from "./classes/Tijolos.js";
@@ -9,7 +9,7 @@ const contexto = canvas.getContext("2d");
 canvas.tabIndex = 0;
 canvas.focus();
 canvas.width = innerWidth / 1.5;
-canvas.height = innerHeight / 1.5;
+canvas.height = innerHeight / 1.3;
 
 const jogador = new Jogador(canvas.width, canvas.height);
 const bola = new Bola(canvas.width / 2, canvas.height - 30, canvas);
@@ -20,6 +20,9 @@ imgMenu.src = imagens.home;
 
 const imgRestart = new Image();
 imgRestart.src = imagens.restart;
+
+const imgVidas = new Image();
+imgVidas.src = imagens.vida;
 
 const keys = {
     left: false,
@@ -62,6 +65,12 @@ function desenharMenu() {
     contexto.fillStyle = "white";
     contexto.font = "20px Arial";
     contexto.fillText(`Score: ${score.pontuacao}`, 0, 30);
+    for (let i = 0; i < vidas.quantidade; i++) {
+        contexto.filter = "brightness(0) invert(1)";
+        contexto.drawImage(imgVidas, 100 + i * 35, 8, 30, 30);
+        contexto.filter = "none";
+    }
+
 }
 
 function desenharIcones() {
