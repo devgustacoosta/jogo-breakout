@@ -12,7 +12,7 @@ canvas.height = innerHeight / 1.5;
 
 const jogador = new Jogador(canvas.width, canvas.height);
 const bola = new Bola(canvas.width / 2, canvas.height - 30, canvas);
-const tijolos = new Tijolos();
+const tijolos = new Tijolos(canvas.width);
 
 const keys = {
     left: false,

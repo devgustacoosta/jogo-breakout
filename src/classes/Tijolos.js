@@ -1,14 +1,14 @@
 import Tijolo from "./Tijolo.js";
 
 class Tijolos {
-    constructor() {
-        this.colunas = parseInt((innerWidth / 1.5 )/ 100);
+    constructor(canvasWidth) {
+        this.colunas = parseInt((innerWidth / 1.5) / 100);
         this.linhas = 4;
-        this.largura = 79;
         this.altura = 20;
         this.espacamento = 15;
+        this.largura = (canvasWidth - (this.colunas - 1) * this.espacamento) / this.colunas;
         this.offsetTop = 60;
-        this.offsetLeft = 30;
+        this.offsetLeft = (canvasWidth - (this.colunas * this.largura + (this.colunas - 1) * this.espacamento)) / 2;
         this.grade = [];
         this.qtdeBlocos = this.colunas * this.linhas;
         this.criarTijolos();
