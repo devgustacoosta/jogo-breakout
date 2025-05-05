@@ -1,4 +1,5 @@
 import Jogador from "./classes/Jogador.js";
+import Bola from "./classes/Bola.js";
 
 const canvas = document.querySelector("canvas");
 const contexto = canvas.getContext("2d");
@@ -9,6 +10,7 @@ canvas.width = innerWidth / 1.5;
 canvas.height = innerHeight / 1.5;
 
 const jogador = new Jogador(canvas.width, canvas.height);
+const bola = new Bola(canvas.width / 2, canvas.height - 30, canvas);
 
 const keys = {
     left: false,
@@ -38,6 +40,8 @@ function jogar() {
     if (keys.left && jogador.posicao.x >= 0) jogador.moveLeft();
     if (keys.right && jogador.posicao.x <= canvas.width - jogador.width) jogador.moveRight();
 
+    bola.atualizar(jogador);
+    bola.desenhar(contexto);
     jogador.desenhar(contexto);
 }
 
