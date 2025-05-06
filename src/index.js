@@ -13,7 +13,9 @@ const divInicio = document.querySelector(".inicio");
 const botaoReiniciar = document.querySelector(".final button");
 const divFinal = document.querySelector(".final");
 const resultado = document.querySelector(".resultado");
+const painelRanking = document.querySelector(".ranking");
 
+let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
 
 canvas.tabIndex = 0;
 canvas.focus();
@@ -55,18 +57,50 @@ botaoJogar.addEventListener("click", () => {
     canvas.style.display = "block";
 });
 
-if (estado.paginaAtual === Paginas.INICIAL) {
-    divInicio.style.display = "flex";
-    canvas.style.display = "none";
-    divFinal.style.display = "none";
-} else if (estado.paginaAtual === Paginas.JOGANDO) {
-    divInicio.style.display = "none";
-    canvas.style.display = "block";
-    divFinal.style.display = "none";
-} else if (estado.paginaAtual === Paginas.FINAL) {
-    divInicio.style.display = "none";
-    canvas.style.display = "none";
-    divFinal.style.display = "flex";
+botaoReiniciar.addEventListener("click", () => {
+    score.pontuacao = 0;
+    vidas.quantidade = 3;
+    estado.paginaAtual = Paginas.JOGANDO;
+});
+
+function atualizarTela() {
+    if (estado.paginaAtual === Paginas.INICIAL) {
+        divInicio.style.display = "flex";
+        canvas.style.display = "none";
+        divFinal.style.display = "none";
+    } else if (estado.paginaAtual === Paginas.JOGANDO) {
+        divInicio.style.display = "none";
+        canvas.style.display = "block";
+        divFinal.style.display = "none";
+    } else if (estado.paginaAtual === Paginas.FINAL) {
+        divInicio.style.display = "none";
+        canvas.style.display = "none";
+        divFinal.style.display = "flex";
+        telaFinal();
+    }
+}
+
+function telaFinal() {
+    const indice = ranking.findIndex(item => item.nome === score.nome);
+
+    if (indice >= 0) {
+        if (score.pontuacao > ranking[indice].pontos) {
+            ranking[indice].pontos = score.pontuacao;
+        }
+    } else {
+        ranking.push({ nome: score.nome, pontos: score.pontuacao });
+    }
+
+    ranking.sort((a, b) => b.pontos - a.pontos);
+    ranking = ranking.slice(0, 5);
+    localStorage.setItem('ranking', JSON.stringify(ranking));
+
+    resultado.textContent = `${score.resultado}`;
+    let html = "<h3>Ranking</h3>";
+    for (let i = 0; i < ranking.length; i++) {
+        html += `<p>${i + 1}. ${ranking[i].nome} - ${ranking[i].pontos} pontos</p>`;
+    }
+    painelRanking.innerHTML = html;
 }
 
 addEventListener("keydown", (event) => {
@@ -88,13 +122,9 @@ function loop() {
         desenharMenu();
         desenharIcones();
         jogar()
-    } else if (estado.paginaAtual === Paginas.DERROTA) {
-        desenharMenu();
-        desenharIcones();
-    } else if (estado.paginaAtual === Paginas.VITORIA) {
-        desenharMenu();
-        desenharIcones();
     }
+
+    atualizarTela();
     requestAnimationFrame(loop);
 }
 

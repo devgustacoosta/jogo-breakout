@@ -1,4 +1,4 @@
-import { vidas, Paginas, estado } from "../utils/constantes.js";
+import { vidas, Paginas, estado, score } from "../utils/constantes.js";
 
 class Bola {
     constructor(x, y, canvas) {
@@ -29,6 +29,7 @@ class Bola {
                 if (vidas.quantidade > 0) {
                     this.reiniciar(this.canvas.width / 2, this.canvas.height - 30);
                 } else {
+                    score.resultado = "Você perdeu!"
                     estado.paginaAtual = Paginas.FINAL;
                 }
             }

@@ -1,5 +1,5 @@
 import Tijolo from "./Tijolo.js";
-import { score } from "../utils/constantes.js";
+import { score, estado, Paginas } from "../utils/constantes.js";
 
 class Tijolos {
     constructor(canvasWidth) {
@@ -12,6 +12,7 @@ class Tijolos {
         this.offsetLeft = (canvasWidth - (this.colunas * this.largura + (this.colunas - 1) * this.espacamento)) / 2;
         this.grade = [];
         this.qtdeBlocos = this.colunas * this.linhas;
+        this.ativos = this.qtdeBlocos;
         this.criarTijolos();
     }
 
@@ -40,9 +41,11 @@ class Tijolos {
                 if (tijolo.colideCom(bola)) {
                     bola.dy = -bola.dy;
                     tijolo.ativo = 0;
+                    this.ativos--;
                     score.pontuacao += 1;
-                    if (this.qtdeBlocos == score.pontuacao) {
-                        alert('Você venceu!');
+                    if (this.ativos === 0) {
+                        score.resultado = "Você venceu!"
+                        estado.paginaAtual = Paginas.FINAL;
                     }
                 }
             }

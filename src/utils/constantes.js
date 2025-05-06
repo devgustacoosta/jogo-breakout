@@ -1,6 +1,7 @@
 export let score = {
     pontuacao: 0,
     nome: "",
+    resultado: "",
 };
 
 export let vidas = {
