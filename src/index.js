@@ -10,7 +10,8 @@ const inputNome = document.querySelector("#nome");
 const botaoJogar = document.querySelector(".inicio button");
 const divInicio = document.querySelector(".inicio");
 
-const botaoReiniciar = document.querySelector(".final button");
+const botaoReiniciar = document.querySelector("#btn-reiniciar");
+const botaoMenu = document.querySelector("#btn-menu");
 const divFinal = document.querySelector(".final");
 const resultado = document.querySelector(".resultado");
 const painelRanking = document.querySelector(".ranking");
@@ -50,6 +51,7 @@ botaoJogar.addEventListener("click", () => {
         return;
     }
 
+    reiniciarJogo();
     score.nome = nome;
     estado.paginaAtual = Paginas.JOGANDO;
 
@@ -58,13 +60,16 @@ botaoJogar.addEventListener("click", () => {
 });
 
 botaoReiniciar.addEventListener("click", () => {
-    score.pontuacao = 0;
-    vidas.quantidade = 3;
-    estado.paginaAtual = Paginas.JOGANDO;
+    reiniciarJogo();
+});
+
+botaoMenu.addEventListener("click", () => {
+    estado.paginaAtual = Paginas.INICIAL;
 });
 
 function atualizarTela() {
     if (estado.paginaAtual === Paginas.INICIAL) {
+        inputNome.focus();
         divInicio.style.display = "flex";
         canvas.style.display = "none";
         divFinal.style.display = "none";
@@ -152,22 +157,79 @@ function desenharMenu() {
     }
 }
 
-function desenharIcones() {
-    const iconY = 8;
-    const iconWidth = 30;
-    const iconHeight = 30;
+const icones = {
+    menu: {
+        x: canvas.width - 70,
+        y: 8,
+        width: 30,
+        height: 30
+    },
+    restart: {
+        x: canvas.width - 35,
+        y: 8,
+        width: 30,
+        height: 30
+    }
+};
 
+
+function desenharIcones() {
     if (imgMenu.complete) {
         contexto.filter = "brightness(0) invert(1)";
-        contexto.drawImage(imgMenu, canvas.width - 70, iconY, iconWidth, iconHeight);
+        contexto.drawImage(imgMenu, icones.menu.x, icones.menu.y, icones.menu.width, icones.menu.height);
         contexto.filter = "none";
     }
 
     if (imgRestart.complete) {
         contexto.filter = "brightness(0) invert(1)";
-        contexto.drawImage(imgRestart, canvas.width - 35, iconY, iconWidth, iconHeight);
+        contexto.drawImage(imgRestart, icones.restart.x, icones.restart.y, icones.restart.width, icones.restart.height);
         contexto.filter = "none";
     }
 }
+
+canvas.addEventListener("click", (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+    console.log(mouseX); 292
+    console.log(mouseY); 30
+
+    if (clicouDentro(mouseX, mouseY, icones.menu)) {
+        estado.paginaAtual = Paginas.INICIAL;
+        atualizarTela();
+    }
+
+    if (clicouDentro(mouseX, mouseY, icones.restart)) {
+        reiniciarJogo();
+    }
+});
+
+function clicouDentro(x, y, icone) {
+    return (
+        x >= icone.x &&
+        x <= icone.x + icone.width &&
+        y >= icone.y &&
+        y <= icone.y + icone.height
+    );
+}
+
+function reiniciarJogo() {
+    score.pontuacao = 0;
+    score.resultado = "";
+
+    vidas.quantidade = 3;
+
+    jogador.posicao.x = canvas.width / 2 - jogador.width / 2;
+    jogador.posicao.y = canvas.height - jogador.height;
+
+    bola.reiniciar(canvas.width / 2, canvas.height - 30);
+
+    tijolos.criarTijolos();
+    tijolos.ativos = tijolos.qtdeBlocos;
+
+    estado.paginaAtual = Paginas.JOGANDO;
+    atualizarTela();
+}
+
 
 loop();

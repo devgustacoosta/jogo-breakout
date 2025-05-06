@@ -1,4 +1,4 @@
-import { vidas, Paginas, estado, score } from "../utils/constantes.js";
+import { vidas, Paginas, estado, score, imagens } from "../utils/constantes.js";
 
 class Bola {
     constructor(x, y, canvas) {
@@ -8,6 +8,8 @@ class Bola {
         this.dy = -4;
         this.radius = 20;
         this.canvas = canvas;
+        this.imagem = new Image();
+        this.imagem.src = imagens.bola;
     }
 
     atualizar(jogador) {
@@ -40,18 +42,32 @@ class Bola {
     }
 
     desenhar(contexto) {
-        contexto.beginPath();
-        contexto.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        contexto.fillStyle = 'blue';
-        contexto.fill();
-        contexto.closePath();
+        if (this.imagem.complete) {
+            contexto.drawImage(
+                this.imagem,
+                this.x - this.radius,
+                this.y - this.radius,
+                this.radius * 2,
+                this.radius * 2
+            );
+        } else {
+            this.imagem.onload = () => {
+                contexto.drawImage(
+                    this.imagem,
+                    this.x - this.radius,
+                    this.y - this.radius,
+                    this.radius * 2,
+                    this.radius * 2
+                );
+            };
+        }
     };
 
     reiniciar(x, y) {
         this.x = x;
         this.y = y;
-        this.dx = 5;
-        this.dy = -5;
+        this.dx = 4;
+        this.dy = -4;
     }
 }
 

@@ -12,6 +12,10 @@ export const imagens = {
     home: "src/assets/home-outline.svg",
     restart: "src/assets/refresh-outline.svg",
     vida: "src/assets/md-heart.svg",
+    base: "src/assets/base1.png",
+    bola: "src/assets/ball1.png",
+    bloco: "src/assets/bloco1.png",
+    fundo: "src/assets/fundo.png"
 }
 
 export const Paginas = {

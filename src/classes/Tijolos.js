@@ -1,5 +1,5 @@
 import Tijolo from "./Tijolo.js";
-import { score, estado, Paginas } from "../utils/constantes.js";
+import { score, estado, Paginas, imagens } from "../utils/constantes.js";
 
 class Tijolos {
     constructor(canvasWidth) {
@@ -14,6 +14,14 @@ class Tijolos {
         this.qtdeBlocos = this.colunas * this.linhas;
         this.ativos = this.qtdeBlocos;
         this.criarTijolos();
+
+        this.imagem = new Image();
+        this.imagem.src = imagens.bloco;
+
+        this.imagem.onload = () => {
+            this.criarTijolos(); 
+        };
+
     }
 
     criarTijolos() {
@@ -22,7 +30,7 @@ class Tijolos {
             for (let l = 0; l < this.linhas; l++) {
                 const x = c * (this.largura + this.espacamento) + this.offsetLeft;
                 const y = l * (this.altura + (this.espacamento - 5)) + this.offsetTop;
-                this.grade[c][l] = new Tijolo(x, y, this.largura, this.altura);
+                this.grade[c][l] = new Tijolo(x, y, this.largura, this.altura, this.imagem);
             }
         }
     }
