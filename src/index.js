@@ -43,7 +43,7 @@ const keys = {
     right: false,
 }
 
-botaoJogar.addEventListener("click", () => {
+function iniciarJogo (){
     const nome = inputNome.value.trim();
 
     if (nome.length === 0) {
@@ -57,6 +57,13 @@ botaoJogar.addEventListener("click", () => {
 
     divInicio.style.display = "none";
     canvas.style.display = "block";
+}
+
+botaoJogar.addEventListener("click",iniciarJogo);
+divInicio.addEventListener("keydown", (tecla) => {
+    if(tecla.key === 'Enter' || tecla.key ==='Space' || tecla.key ===' '){
+        iniciarJogo();
+    }
 });
 
 botaoReiniciar.addEventListener("click", () => {
@@ -191,8 +198,6 @@ canvas.addEventListener("click", (event) => {
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
-    console.log(mouseX); 292
-    console.log(mouseY); 30
 
     if (clicouDentro(mouseX, mouseY, icones.menu)) {
         estado.paginaAtual = Paginas.INICIAL;

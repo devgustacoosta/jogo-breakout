@@ -20,13 +20,27 @@ class Bola {
         if (this.y + this.dy < this.radius) {
             this.dy = -this.dy;
         } else if (this.y + this.dy > this.canvas.height - this.radius) {
-            const colideComJogador =
+            const dentroHorizontal =
                 this.x + this.radius > jogador.posicao.x &&
                 this.x - this.radius < jogador.posicao.x + jogador.width;
 
-            if (colideComJogador) {
-                this.dy = -this.dy;
-            } else {
+            const tocandoTopoDaBase =
+                this.y + this.radius + this.dy >= jogador.posicao.y &&
+                this.y + this.radius <= jogador.posicao.y + jogador.height;
+
+            if (dentroHorizontal && tocandoTopoDaBase && this.dy > 0) {
+                const centroDaBase = jogador.posicao.x + jogador.width / 2;
+                const distanciaDoCentro = (this.x - centroDaBase) / (jogador.width / 2);
+
+                const maxAngulo = Math.PI / 3; 
+                const angulo = distanciaDoCentro * maxAngulo;
+
+                const velocidade = Math.sqrt(this.dx ** 2 + this.dy ** 2);
+
+                this.dx = velocidade * Math.sin(angulo);
+                this.dy = -Math.abs(velocidade * Math.cos(angulo));
+            }
+            else {
                 vidas.quantidade -= 1;
                 if (vidas.quantidade > 0) {
                     this.reiniciar(this.canvas.width / 2, this.canvas.height - 30);
