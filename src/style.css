@@ -123,3 +123,7 @@ canvas {
     text-align: justify;
     text-wrap: wrap;
 }
+
+.resultado {
+    font-size: 2em;
+}
